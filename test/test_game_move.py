@@ -179,8 +179,6 @@ class Test_Check_and_Checkmate(unittest.TestCase):
 			self.assertTrue(re.match(new_re, f'{move}#'))
 
 
-
-# @unittest.skip('Not ready yet')
 class Test_Find_Moves(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
