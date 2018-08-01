@@ -4,22 +4,21 @@ FILE = '[a-h]'
 RANK = '[1-8]'
 SQUARE = f'{FILE}{RANK}'
 
-
-PAWN_MOVE = f'{SQUARE}' #e4 #check
+PAWN_MOVE = f'{SQUARE}' #e4 
 PIECE_MOVE = f'[KQRNB]{SQUARE}'#Qb3
 
-PIECE_FILE_MOVE = f'[QRNB]{FILE}{SQUARE}' #Ndf5 #check
-PIECE_RANK_MOVE = f'[QRNB]{RANK}{SQUARE}' #N6f4 #check
-PIECE_FILE_RANK_MOVE = f'[QRNB]{FILE}{RANK}{SQUARE}' #Nb3d4 #check
+PIECE_FILE_MOVE = f'[QRNB]{FILE}{SQUARE}' #Ndf5 
+PIECE_RANK_MOVE = f'[QRNB]{RANK}{SQUARE}' #N6f4 
+PIECE_FILE_RANK_MOVE = f'[QRNB]{FILE}{RANK}{SQUARE}' #Nb3d4 
 
 PAWN_CAPTURE = f'{FILE}x{SQUARE}' #exd4
 PIECE_CAPTURE = f'[KQRNB]x{SQUARE}' #Bxf7
 PIECE_FILE_CAPTURE = f'[QRNB]{FILE}x{SQUARE}' #Rfxd8
 PIECE_RANK_CAPTURE = f'[QRNB]{RANK}x{SQUARE}' #N6xd5
 
-KING_CASTLE = 'O-O' #check
-QUEEN_CASTLE = 'O-O-O' #check
-PROMOTE = f'{SQUARE}=[QRNB]'#h1=Q #check
+KING_CASTLE = 'O-O' 
+QUEEN_CASTLE = 'O-O-O' 
+PROMOTE = f'{SQUARE}=[QRNB]'#h1=Q 
 
 def check_checkmate_move(re_str):
 	'''
@@ -45,7 +44,6 @@ def combine_move_re():
 	return re.compile(move_re)
 
 MOVE_RE = combine_move_re()
-
 
 def move_index(x):
  	return (x/2)+1
