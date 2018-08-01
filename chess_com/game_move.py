@@ -23,7 +23,6 @@ PROMOTE = f'{SQUARE}=[QRNB]'#h1=Q
 def check_checkmate_move(re_str):
 	'''
 	re_str: string that denotes a regular expression for a chess move
-
 	returns a regular expression string that accounts for the original re, as 
 	well as, the move coming with check(+) or checkmate(#).
 	'''
@@ -48,30 +47,27 @@ MOVE_RE = combine_move_re()
 def move_index(x):
  	return (x/2)+1
 
-def parse_chess_moves(move_lst):
-	moves = {}
+def parse_chess_moves(move_str):
+	""""
+	move_str: a string containing chess moves
+	returns a dict containing the moves played each game in the form
+	{1:{W:_ , B:_}, 2:{W:_, B:_}, ...}
+	"""
+	move_lst = re.findall(MOVE_RE, move_str)
+	move_dict = {}
 	if len(move_lst) == 0:
-		moves[1] = {'White':0, 'Black':0}
+		return {0:{'W':'-', 'B':'-'}}
 	elif len(move_lst) % 2 == 0:
 		for i in range(0,len(move_lst), 2):
 			index = move_index(i)
-			white = move_lst[i]
-			black = move_lst[i+1]
-			moves[index] = {'White':white, 'Black':black}
+			move_dict[index] = {'W':move_lst[i], 'B': move_lst[i+1]}
 	else:
 		for i in range(0,len(move_lst), 2):
 			if i == len(move_lst)-1:
 				index = move_index(i)
-				white = move_lst[i]
-				black = None
-				moves[index] = {'White':white, 'Black':black}
+				move_dict[index] = {'W':move_lst[i], 'B':'-'}
 			else:
 				index = move_index(i)
-				white = move_lst[i]
-				black = move_lst[i+1]
-				moves[index] = {'White':white, 'Black':black}
-	return moves
+				move_dict[index] = {'W':move_lst[i], 'B':move_lst[i+1]}
+	return move_dict
 
-def move_dict(move_str):
-	moves = re.findall(MOVE_RE, move_str)
-	return parse_chess_moves(moves)
