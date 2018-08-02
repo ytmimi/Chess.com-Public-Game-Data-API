@@ -6,7 +6,7 @@ import random
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(path, 'chess_com'))
 
-import game_move as gm
+import process_data as gm
 
 import unittest
 
