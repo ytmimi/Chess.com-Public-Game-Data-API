@@ -56,7 +56,7 @@ def parse_chess_moves(move_str):
 	move_lst = re.findall(MOVE_RE, move_str)
 	move_dict = {}
 	if len(move_lst) == 0:
-		return {0:{'W':'-', 'B':'-'}}
+		return {1:{'W':'-', 'B':'-'}}
 	elif len(move_lst) % 2 == 0:
 		for i in range(0,len(move_lst), 2):
 			index = move_index(i)
