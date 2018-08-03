@@ -6,23 +6,17 @@ import random
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(path, 'chess_com'))
 
-from chess_api import archived_games, monthly_games, player_info
+from chess_api import archived_games, monthly_games, player_info, chess_com_data
+from settings import LIVE_TEST, USERNAME
 
 import unittest
 
-
-LIVE_TEST = False
-USERNAME = os.environ['USERNAME']
-
-
-@unittest.skipIf(not LIVE_TEST, 'Set LIVE_TEST to True to run these test')
+@unittest.skipIf(not LIVE_TEST, 'Set LIVE_TEST to True in settings.py to run these test')
 class Test_Live_API(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
-		YYYY = '2018'
-		MM = '02'
 		cls.archive_endpoint=f'https://api.chess.com/pub/player/{USERNAME}/games/archives'
-		cls.monthly_endpoint=f'https://api.chess.com/pub/player/{USERNAME}/games/{YYYY}/{MM}'
+		cls.monthly_endpoint= chess_com_data(cls.archive_endpoint)['archives'][-1]
 		cls.player_endpoint=f'https://api.chess.com/pub/player/{USERNAME}'
 
 	def test_archived_games(self):
@@ -43,6 +37,5 @@ class Test_Live_API(unittest.TestCase):
 		self.assertIsInstance(api_data, dict)
 		
 		
-
 if __name__ == '__main__':
 	unittest.main()
