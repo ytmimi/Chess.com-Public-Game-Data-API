@@ -6,7 +6,7 @@ import random
 path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(os.path.join(path, 'chess_com'))
 
-import process_data as gm
+import process_data
 
 import unittest
 
@@ -15,17 +15,17 @@ import unittest
 class Test_base_re(unittest.TestCase):
 	def test_file(self):
 		for file in 'abcdefgh':
-			self.assertTrue(re.match(gm.FILE, file))
+			self.assertTrue(re.match(process_data.FILE, file))
 
 	def test_rank(self):
 		for rank in range(1, 9):
-			self.assertTrue(re.match(gm.RANK, f'{rank}'))
+			self.assertTrue(re.match(process_data.RANK, f'{rank}'))
 
 	def test_square(self):
 		for letter in 'abcdefgh':
 			for i in range(1,9):
 				square = f'{letter}{i}'
-				self.assertTrue(re.match(gm.SQUARE, square))
+				self.assertTrue(re.match(process_data.SQUARE, square))
 
 
 
@@ -35,26 +35,26 @@ class Test_basic_moves(unittest.TestCase):
 			for piece in 'QRNB':
 				for num in [1,8]:
 					promote = f'{letter}{num}={piece}'
-					self.assertTrue(re.match(gm.PROMOTE, promote))
+					self.assertTrue(re.match(process_data.PROMOTE, promote))
 
 	def test_piece_move(self):
 		for letter in 'abcdefgh':
 			for piece in 'KQRNB':
 				for num in range(1, 9):
 					move = f'{piece}{letter}{num}'
-					self.assertTrue(re.match(gm.PIECE_MOVE, move ))
+					self.assertTrue(re.match(process_data.PIECE_MOVE, move ))
 
 	def test_pawn_move(self):
 		for letter in 'abcdefgh':
 			for num in range(2,8):
 				move = f'{letter}{num}'
-				self.assertTrue(re.match(gm.PAWN_MOVE, move ))
+				self.assertTrue(re.match(process_data.PAWN_MOVE, move ))
 
 	def test_king_side_castle(self):
-		self.assertTrue(re.match(gm.KING_CASTLE, 'O-O'))
+		self.assertTrue(re.match(process_data.KING_CASTLE, 'O-O'))
 
 	def test_queen_side_castle(self):
-		self.assertTrue(re.match(gm.QUEEN_CASTLE, 'O-O-O'))
+		self.assertTrue(re.match(process_data.QUEEN_CASTLE, 'O-O-O'))
 
 
 
@@ -64,7 +64,7 @@ class Test_basic_captures(unittest.TestCase):
 			for piece in 'KQRNB':
 				for num in range(1,9):
 					cap = f'{piece}x{file}{num}'
-					self.assertTrue(re.match(gm.PIECE_CAPTURE, cap))
+					self.assertTrue(re.match(process_data.PIECE_CAPTURE, cap))
 
 	def test_pawn_capture(self):
 		files = 'abcdefgh'
@@ -72,12 +72,12 @@ class Test_basic_captures(unittest.TestCase):
 			for num in range(1,9):
 				if file !='h':
 					cap = f'{file}x{files[i+1]}{num}'
-					self.assertTrue(re.match(gm.PAWN_CAPTURE, cap))
+					self.assertTrue(re.match(process_data.PAWN_CAPTURE, cap))
 		for i, file in enumerate(file[::-1]):
 			for num in range(1,9):
 				if file !='a':
 					cap = f'{file}x{files[i+1]}{num}'
-					self.assertTrue(re.match(gm.PAWN_CAPTURE, cap))
+					self.assertTrue(re.match(process_data.PAWN_CAPTURE, cap))
 
 
 class Test_Ambiguous_moves_and_captures(unittest.TestCase):
@@ -89,7 +89,7 @@ class Test_Ambiguous_moves_and_captures(unittest.TestCase):
 		for piece in 'QRNB':
 			for num in range(1,9):
 				move = f'{piece}ab{num}'
-				self.assertTrue(re.match(gm.PIECE_FILE_MOVE, move))
+				self.assertTrue(re.match(process_data.PIECE_FILE_MOVE, move))
 
 	def test_piece_rank_move(self):
 		'''test ambigous moves, where more clarification is needed by adding the rank
@@ -99,7 +99,7 @@ class Test_Ambiguous_moves_and_captures(unittest.TestCase):
 		for peice in 'QRNB':
 			for num in range(1,9):
 				move = f'{peice}2f{num}'
-				self.assertTrue(re.match(gm.PIECE_RANK_MOVE, move))
+				self.assertTrue(re.match(process_data.PIECE_RANK_MOVE, move))
 
 	def test_piece_file_rank_move(self):
 		'''test ambigous moves, where more clarification is needed by adding the file and rank
@@ -109,7 +109,7 @@ class Test_Ambiguous_moves_and_captures(unittest.TestCase):
 		for peice in 'QRNB':
 			for num in range(1,9):
 				move = f'{peice}d2f{num}'
-				self.assertTrue(re.match(gm.PIECE_FILE_RANK_MOVE, move))
+				self.assertTrue(re.match(process_data.PIECE_FILE_RANK_MOVE, move))
 
 	def test_piece_file_capture(self):
 		'''test ambigous moves, where more clarification is needed by adding the file
@@ -119,7 +119,7 @@ class Test_Ambiguous_moves_and_captures(unittest.TestCase):
 		for piece in 'QRNB':
 			for num in range(1,9):
 				move = f'{piece}axb{num}'
-				self.assertTrue(re.match(gm.PIECE_FILE_CAPTURE, move))
+				self.assertTrue(re.match(process_data.PIECE_FILE_CAPTURE, move))
 
 	def test_piece_rank_capture(self):
 		'''test ambigous moves, where more clarification is needed by adding the rank
@@ -129,7 +129,7 @@ class Test_Ambiguous_moves_and_captures(unittest.TestCase):
 		for peice in 'QRNB':
 			for num in range(1,9):
 				move = f'{peice}2xf{num}'
-				self.assertTrue(re.match(gm.PIECE_RANK_CAPTURE, move))
+				self.assertTrue(re.match(process_data.PIECE_RANK_CAPTURE, move))
 
 
 
@@ -160,20 +160,20 @@ class Test_Check_and_Checkmate(unittest.TestCase):
 			cls.king_castle, cls.queen_castle
 		]
 		cls.re_list = [
-			gm.PROMOTE, gm.PIECE_MOVE, gm.PAWN_MOVE, gm.PIECE_FILE_MOVE,
-			gm.PIECE_RANK_MOVE, gm.PIECE_FILE_RANK_MOVE, gm.PIECE_CAPTURE,
-			gm.PAWN_CAPTURE, gm.PIECE_FILE_CAPTURE, gm.PIECE_RANK_CAPTURE,
-			gm.KING_CASTLE, gm.QUEEN_CASTLE
+			process_data.PROMOTE, process_data.PIECE_MOVE, process_data.PAWN_MOVE, process_data.PIECE_FILE_MOVE,
+			process_data.PIECE_RANK_MOVE, process_data.PIECE_FILE_RANK_MOVE, process_data.PIECE_CAPTURE,
+			process_data.PAWN_CAPTURE, process_data.PIECE_FILE_CAPTURE, process_data.PIECE_RANK_CAPTURE,
+			process_data.KING_CASTLE, process_data.QUEEN_CASTLE
 		]
 
 	def test_check_checkmate_move_function(self):
 		for re_str in self.re_list:
-			result = gm.check_checkmate_move(re_str)
+			result = process_data.check_checkmate_move(re_str)
 			self.assertEqual(result, fr'{re_str}\+|{re_str}#|{re_str}')
 
 	def test_check_checkmat_move(self):
 		for re_str, move in zip(self.re_list, self.example_list):
-			new_re = gm.check_checkmate_move(re_str)
+			new_re = process_data.check_checkmate_move(re_str)
 			self.assertTrue(re.match(new_re, f'{move}'))
 			self.assertTrue(re.match(new_re, f'{move}+'))
 			self.assertTrue(re.match(new_re, f'{move}#'))
@@ -190,28 +190,28 @@ class Test_Find_Moves(unittest.TestCase):
 		cls.timestamp_dict = {1.0: {'W': 'e4', 'B': 'c5'}, 2.0: {'W': 'Nc3', 'B': 'Nc6'}, 3.0: {'W': 'Nf3', 'B': 'd6'}, 4.0: {'W': 'd4', 'B': 'cxd4'}, 5.0: {'W': 'Nxd4', 'B': 'Nf6'}, 6.0: {'W': 'Bb5', 'B': 'Bd7'}, 7.0: {'W': 'O-O', 'B': 'Qb6'}, 8.0: {'W': 'Be3', 'B': 'Ng4'}, 9.0: {'W': 'Qxg4', 'B': 'Bxg4'}, 10.0: {'W': 'Ne6', 'B': 'Qxe3'}, 11.0: {'W': 'fxe3', 'B': 'fxe6'}, 12.0: {'W': 'Rad1', 'B': 'Bxd1'}, 13.0: {'W': 'Rxd1', 'B': 'O-O-O'}, 14.0: {'W': 'Bc4', 'B': 'e5'}, 15.0: {'W': 'Be6+', 'B': 'Kb8'}, 16.0: {'W': 'g4', 'B': 'g6'}, 17.0: {'W': 'Nb5', 'B': 'Bh6'}, 18.0: {'W': 'Re1', 'B': 'Rhf8'}, 19.0: {'W': 'h4', 'B': 'Rf6'}, 20.0: {'W': 'Bd5', 'B': 'g5'}, 21.0: {'W': 'hxg5', 'B': 'Bxg5'}, 22.0: {'W': 'Nc3', 'B': 'Nb4'}, 23.0: {'W': 'Bb3', 'B': 'Rdf8'}, 24.0: {'W': 'a3', 'B': 'Na6'}, 25.0: {'W': 'Re2', 'B': 'Nc5'}, 26.0: {'W': 'Nd5', 'B': 'Rh6'}, 27.0: {'W': 'Rh2', 'B': 'Rxh2'}, 28.0: {'W': 'Kxh2', 'B': 'Nxe4'}, 29.0: {'W': 'Nc3', 'B': 'Nxc3'}, 30.0: {'W': 'bxc3', 'B': 'Bxe3'}, 31.0: {'W': 'c4', 'B': 'Bc5'}, 32.0: {'W': 'Ba2', 'B': 'e4'}, 33.0: {'W': 'Bb1', 'B': 'e3'}, 34.0: {'W': 'c3', 'B': 'e2'}, 35.0: {'W': 'Be4', 'B': 'e1=Q'}, 36.0: {'W': 'Bf5', 'B': 'Rxf5'}, 37.0: {'W': 'gxf5', 'B': 'Qh4+'}, 38.0: {'W': 'Kg2', 'B': 'Qg4+'}, 39.0: {'W': 'Kf1', 'B': 'Qxf5+'}, 40.0: {'W': 'Ke2', 'B': 'h5'}, 41.0: {'W': 'Kd1', 'B': 'h4'}, 42.0: {'W': 'Kc1', 'B': 'h3'}, 43.0: {'W': 'Kb2', 'B': 'Bxa3+'}, 44.0: {'W': 'Ka2', 'B': 'Bc1'}, 45.0: {'W': 'Kb3', 'B': 'd5'}, 46.0: {'W': 'cxd5', 'B': 'Qxd5+'}, 47.0: {'W': 'Kc2', 'B': 'h2'}, 48.0: {'W': 'Kxc1', 'B': 'h1=Q+'}, 49.0: {'W': 'Kc2', 'B': 'a5'}, 50.0: {'W': 'Kb2', 'B': 'a4'}, 51.0: {'W': 'Ka3', 'B': 'Qb3#'}}
 	
 	def test_no_timestamp(self):
-		all_moves = re.findall(gm.MOVE_RE, self.no_timestamp)
+		all_moves = re.findall(process_data.MOVE_RE, self.no_timestamp)
 		self.assertEqual(len(all_moves), 55)
 		self.assertEqual(all_moves, self.no_timestamp_lst)
 
 	def test_timestamp(self):
-		all_moves = re.findall(gm.MOVE_RE, self.timestamp)
+		all_moves = re.findall(process_data.MOVE_RE, self.timestamp)
 		self.assertEqual(len(all_moves), 102)
 		self.assertEqual(all_moves, self.timestamp_lst)
 
 	def test_move_index(self):
-		self.assertEqual(gm.move_index(0), 1)
-		self.assertEqual(gm.move_index(2), 2)
-		self.assertEqual(gm.move_index(4), 3)
-		self.assertEqual(gm.move_index(6), 4)
+		self.assertEqual(process_data.move_index(0), 1)
+		self.assertEqual(process_data.move_index(2), 2)
+		self.assertEqual(process_data.move_index(4), 3)
+		self.assertEqual(process_data.move_index(6), 4)
 
 	def test_parse_chess_moves_no_timestamp(self):
-		move_dict = gm.parse_chess_moves(self.no_timestamp)
+		move_dict = process_data.parse_chess_moves(self.no_timestamp)
 		self.assertEqual(move_dict, self.no_timestamp_dict)
 		self.assertEqual(len(move_dict.keys()), 28)
 
 	def test_parse_chess_moves_timestamp(self):
-		move_dict = gm.parse_chess_moves(self.timestamp)
+		move_dict = process_data.parse_chess_moves(self.timestamp)
 		self.assertEqual(move_dict, self.timestamp_dict)
 		self.assertEqual(len(move_dict.keys()), 51)
 
