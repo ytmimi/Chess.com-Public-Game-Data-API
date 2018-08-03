@@ -1,24 +1,6 @@
 import re
-
-FILE = '[a-h]'
-RANK = '[1-8]'
-SQUARE = f'{FILE}{RANK}'
-
-PAWN_MOVE = f'{SQUARE}' #e4 
-PIECE_MOVE = f'[KQRNB]{SQUARE}'#Qb3
-
-PIECE_FILE_MOVE = f'[QRNB]{FILE}{SQUARE}' #Ndf5 
-PIECE_RANK_MOVE = f'[QRNB]{RANK}{SQUARE}' #N6f4 
-PIECE_FILE_RANK_MOVE = f'[QRNB]{FILE}{RANK}{SQUARE}' #Nb3d4 
-
-PAWN_CAPTURE = f'{FILE}x{SQUARE}' #exd4
-PIECE_CAPTURE = f'[KQRNB]x{SQUARE}' #Bxf7
-PIECE_FILE_CAPTURE = f'[QRNB]{FILE}x{SQUARE}' #Rfxd8
-PIECE_RANK_CAPTURE = f'[QRNB]{RANK}x{SQUARE}' #N6xd5
-
-KING_CASTLE = 'O-O' 
-QUEEN_CASTLE = 'O-O-O' 
-PROMOTE = f'{SQUARE}=[QRNB]'#h1=Q 
+from settings import MOVE_RE_LIST
+from chess_api import player_info
 
 def check_checkmate_move(re_str):
 	'''
@@ -29,17 +11,16 @@ def check_checkmate_move(re_str):
 	return fr'{re_str}\+|{re_str}#|{re_str}'
 
 def combine_move_re():
-	mv_list = [
-		PROMOTE, QUEEN_CASTLE, KING_CASTLE, PIECE_RANK_CAPTURE, PIECE_FILE_CAPTURE,
-		PIECE_CAPTURE, PAWN_CAPTURE, PIECE_FILE_RANK_MOVE, PIECE_RANK_MOVE, PIECE_FILE_MOVE, 
-		PIECE_MOVE, PAWN_MOVE]
+	''' 
+	joins all the regular expression stored in MOVE_RE_LIST into one
+	large regex. Returns the compiled regex.
+	'''
 	move_re = ''
-	for re_str in mv_list:
-		checks_re = check_checkmate_move(re_str)
+	for re_str in MOVE_RE_LIST:
 		if move_re != '':
-			move_re = f'{move_re}|{checks_re}'
+			move_re = f'{move_re}|{check_checkmate_move(re_str)}'
 		else:
-			move_re=checks_re
+			move_re=check_checkmate_move(re_str)
 	return re.compile(move_re)
 
 MOVE_RE = combine_move_re()
@@ -51,7 +32,7 @@ def parse_chess_moves(move_str):
 	""""
 	move_str: a string containing chess moves
 	returns a dict containing the moves played each game in the form
-	{1:{W:_ , B:_}, 2:{W:_, B:_}, ...}
+	{1:{W:_ , B:_}, 2:{W:_, B:_}, 3:{W:_, B:_} ...}
 	"""
 	move_lst = re.findall(MOVE_RE, move_str)
 	move_dict = {}
@@ -70,4 +51,53 @@ def parse_chess_moves(move_str):
 				index = move_index(i)
 				move_dict[index] = {'W':move_lst[i], 'B':move_lst[i+1]}
 	return move_dict
+
+def strip_brackets(string):
+	return string.replace('[', '').replace(']','')
+
+def variation_from_url(variation_url):
+	variation_str = variation_url.split('/')[-1]
+	variat_lst = variation_str.split('-')[1:]
+	return ' '.join(variat_lst)
+
+def pgn_to_dict(pgn_str):
+	""""
+	pgn_str: str from each game dictionaries pgn key
+	returns a dictionary with the following keys: 
+	'Event', 'Site', 'Date', 'Round', 'White', 'Black', 'Result', 'ECO',
+	'ECOUrl', 'WhiteElo', 'BlackElo', 'TimeControl', 'Termination',
+	'StartTime', 'EndDate', 'EndTime', 'Link', 'Moves' 'Variation',
+	"""
+	pgn_data = pgn_str.split('\n')
+	pgn_dict = {}
+	for item in pgn_data[:-2]:
+		category, value, _ = strip_brackets(item).split('"')
+		pgn_dict[category.strip()] = value
+	pgn_dict['Moves'] = parse_chess_moves(pgn_data[-1])
+	pgn_dict['Variation'] = variation_from_url(pgn_dict['ECOUrl'])
+	return pgn_dict
+
+def player_nationality(country_codes: dict,nationality: dict, player_dict: dict):
+	''' 
+	Either makes a request to get the players nationality, or loads the nationality 
+	from the passed in nationality dictionary. Then updates the player_dict to include
+	that nationality.
+	'''
+	player_enpoint = player_dict['@id']
+	if nationality.get(player_enpoint) != None:
+		player_dict['nationality'] = nationality[player_enpoint]
+	else:
+		try:
+			country_url = player_info(player_enpoint)['country']
+			code = country_url.split('/')[-1]
+			country = country_codes[code]
+		except Exception as e:
+			country = 'Unknown'
+		player_dict['nationality'] = country
+		nationality[player_enpoint] = country
+	return player_dict
+
+
+
+
 
