@@ -2,4 +2,4 @@
 .env
 *.ipynb
 nationality.csv
-*.xlsx
+chess_data.csv
