@@ -16,7 +16,7 @@ I'm an avid chess player and have been using chess.com consistently for the past
 
 Most data from the API gets processed during the execution of the program, so extending the fields collected each game should be very easy. For example, although the program doesn't (yet) save the moves played, they are all parsed and organized into a Python dictionary.
 
-The ultimate goal for this project is to use my game data to build a chess bot that plays similar to me. Not sure how I'll get there, but I think its a good goal to strive towards, and I hope to learn alot along the way.
+The ultimate goal for this project is to use my game data to build a chess bot that plays similar to me, and hopefully thats what you'll be able to use it for too. Not sure how I'll get there, but I think its a good goal to strive towards, and I hope to learn alot along the way.
 
 
 ### Set Up
