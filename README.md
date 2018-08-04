@@ -6,7 +6,8 @@ I'm an avid chess player, and I recently learned that chess.com archives just ab
 Username, Rating, Nationality, Side(white or black), Result (win, lose, etc.), and First Move.
 
 * Opponent Data
-Opponent fields identical to player fields, 
+
+...Opponent fields identical to player fields, 
 
 * General Game Data
 Variation, Termination, Number of Moves, and End Date. 
