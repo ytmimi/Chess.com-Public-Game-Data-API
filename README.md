@@ -1,22 +1,22 @@
 # Chess.com's Public Data API
 
 ### About
-I'm an avid chess player, and I recently learned that chess.com archives just about every game you play. Turns out they also have an extremely convenient and easy to use [API](https://www.chess.com/news/view/published-data-api), which allow you to get access to all that data. My goal was to use the API to compile data on every game, which I could then use to conduct some basic analysis. The program collects data on the following fields for each game: 
+I'm an avid chess player and have been using chess.com consistently for the past two years. I recently learned that chess.com archives just about every game you play. Turns out they also have an extremely convenient and easy to use [API](https://www.chess.com/news/view/published-data-api), which allows you to get access to all that data. My goal was to use the API to compile data on every game, which I could then use to conduct some basic analysis. The program collects data on the following fields for each game: 
 * **Player Data**
 
    Username, Rating, Nationality, Side(white or black), Result (win, lose, etc.), and First Move.
 
 * **Opponent Data**
  
-   Opponent fields identical to player fields, 
+   Username, Rating, Nationality, Side(white or black), Result (win, lose, etc.), and First Move.
 
 * **General Game Data**
  
    Variation, Termination, Number of Moves, and End Date. 
 
-Most data from the API gets processed during the execution of the program, so extending the fields collected each game should be very easy.
+Most data from the API gets processed during the execution of the program, so extending the fields collected each game should be very easy. For example, although the program doesn't (yet) save the moves played, they are all parsed and organized into a Python dictionary.
 
-Although the program is currently set up to gather data from chess.com's API, the ultimate goal for this project is to use my game data to build a chess bot that plays similar to me.
+The ultimate goal for this project is to use my game data to build a chess bot that plays similar to me. Not sure how I'll get there, but I think its good goal to strive towards, and I hope to learn alot along the way.
 
 
 ### Set Up
@@ -83,4 +83,4 @@ $: python chess_com/main.py
 Along with CSVs/nationality.csv, CSVs/chess_data.csv is created. chess_data.csv contains all the data acquired from the API.
 
 
-Jupyter Notebook with analysis of the data is soon to come!
+Jupyter Notebook with analysis of the data coming soon!
