@@ -2,15 +2,15 @@
 
 ### About
 I'm an avid chess player, and I recently learned that chess.com archives just about every game you play. Turns out they also have an extremely convenient and easy to use [API](https://www.chess.com/news/view/published-data-api), which allow you to get access to all that data. My goal was to use the API to compile data on every game, which I could then use to conduct some basic analysis. The program collects data on the following fields for each game: 
-* Player Data
+* **Player Data**
 
    Username, Rating, Nationality, Side(white or black), Result (win, lose, etc.), and First Move.
 
-* Opponent Data
+* **Opponent Data**
  
    Opponent fields identical to player fields, 
 
-* General Game Data
+* **General Game Data**
  
    Variation, Termination, Number of Moves, and End Date. 
 
