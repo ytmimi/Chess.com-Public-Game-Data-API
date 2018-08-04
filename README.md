@@ -26,11 +26,11 @@ The ultimate goal for this project is to use my game data to build a chess bot t
 
  If you haven't installed Pipenv yet here's a link to the [documentation](https://docs.pipenv.org/install/#installing-pipenv). If you've cloned this repository and have Pipenv installed,  run:
 ```
-$ pipenv install
+$: pipenv install
 ```
 You'll also need a `.env` file. Pipenv will use this file to load environment variables. The only environment variable that you'll be setting is your chess.com username. Create and open the `.env` file. 
 ```
-$ touch .env && open .env
+$: touch .env && open .env
 ```
 Then type(without the brackets): 
 ```
@@ -47,7 +47,7 @@ Although usernames aren't as sensitive as passwords, I'd only recommend this if 
 
 Once you've set and saved the USERNAME variable, start the virtual environment.
 ```
-$ pipenv shell
+$: pipenv shell
 ```
 
 ### Testing
