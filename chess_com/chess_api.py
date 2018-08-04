@@ -1,4 +1,3 @@
-import os
 import json
 from requests_html import HTMLSession
 
