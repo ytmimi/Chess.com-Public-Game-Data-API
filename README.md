@@ -1,7 +1,7 @@
 # Chess.com's Public Data API
 
 ### About
-I'm an avid chess player and have been using chess.com consistently for the past two years. I recently learned that chess.com archives just about every game you play. Turns out they also have an extremely convenient and easy to use [API](https://www.chess.com/news/view/published-data-api), which allows you to get access to all that data. My goal was to use the API to compile data on every game, which I could then use to conduct some basic analysis. The program collects data on the following fields for each game: 
+I'm an avid chess player and have been using chess.com consistently for the past two years. I recently learned that chess.com archives just about every game you play. Turns out they also have an extremely convenient and easy to use [API](https://www.chess.com/news/view/published-data-api), which allows you access to all that data. My original motivation for this project was to use the API to compile data on every game I've played, and then use that data to conduct some basic analysis. For each game, The program collects data on the following fields: 
 * **Player Data**
 
    Username, Rating, Nationality, Side(white or black), Result (win, lose, etc.), and First Move.
@@ -14,7 +14,7 @@ I'm an avid chess player and have been using chess.com consistently for the past
  
    Variation, Termination, Number of Moves, and End Date. 
 
-Most data from the API gets processed during the execution of the program, so extending the fields collected each game should be very easy. For example, although the program doesn't (yet) save the moves played, they are all parsed and organized into a Python dictionary.
+Most data from the API gets processed during the execution of the program, so extending the fields collected each game should be very easy. For example, although the program doesn't (yet) save the moves played each game, they are all parsed and organized into a Python dictionary.
 
 The ultimate goal for this project is to use my game data to build a chess bot that plays similar to me. Not sure how I'll get there, but I think its a good goal to strive towards, and I hope to learn alot along the way.
 
