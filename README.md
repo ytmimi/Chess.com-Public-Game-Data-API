@@ -45,7 +45,7 @@ USERNAME = 'your username'
 
 Although usernames aren't as sensitive as passwords, I'd only recommend this if you don't plan on uploading the code anywhere, or don't mind other people knowing what your chess.com username is.
 
-Once you've set the USERNAME variable, start the virtual environment
+Once you've set and saved the USERNAME variable, start the virtual environment.
 ```
 $ pipenv shell
 ```
