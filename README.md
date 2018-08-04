@@ -81,3 +81,6 @@ $: python chess_com/main.py
 **Note**: Depending on how many games you've played on chess.com's site this could take several minutes to run. However, subsequent executions of the program should be much quicker as data that required additional requests to chess.com's servers should have been stored in CSVs/nationality.csv.
 
 Along with CSVs/nationality.csv, CSVs/chess_data.csv is created. chess_data.csv contains all the data acquired from the API.
+
+
+Jupyter Notebook with analysis of the data is soon to come!
